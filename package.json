@@ -1,6 +1,6 @@
 {
   "name": "ts-utility-functions",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "",
   "type": "commonjs",
   "main": "dist/index.js",
@@ -8,7 +8,8 @@
   "scripts": {
     "build": "rm -rf dist && npm run build:ts",
     "build:ts": "tsc -p tsconfig.json --outDir dist",
-    "pub": "npm run build && npm publish"
+    "pub": "npm run build && npm publish",
+    "lint": "eslint src --fix"
   },
   "files": [
     "dist"
@@ -17,7 +18,9 @@
     "ts-parsers": "^1.0.4"
   },
   "devDependencies": {
-    "typescript": "^5.4.3"
+    "typescript": "^5.4.3",
+    "@antfu/eslint-config": "^2.20.0",
+    "eslint": "^9.4.0"
   },
   "author": {
     "name": "Ihor Herasymovych",

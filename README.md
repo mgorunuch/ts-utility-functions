@@ -51,3 +51,32 @@ switch (currency) {
 }
 
 ```
+
+
+### Object
+
+Example:
+```ts
+
+// obj.copyIntersectingFields
+const a = { a: 1, b: 2, c: 3 }
+const b = { a: 0, b: 0 }
+copyIntersectingFields(a, b, ['a', 'b'])
+console.log(b) // { a: 1, b: 2 }
+
+// obj.copyIntersectingFields.toNew
+const a = { a: 1, b: 2, c: 3 }
+class B {
+  constructor(public a: number, public b: number) {}
+}
+const b = copyIntersectingFields.toNew(a, B, ['a', 'b'])
+console.log(b) // A { a: 1, b: 2 }
+
+
+// obj.merge
+const a = { a: 1, b: 2 }
+const b = { b: 3, c: 4 }
+const c = { c: 5, d: 6 }
+const d = merge(a, b, c)
+console.log(d) // { a: 1, b: 3, c: 5, d: 6 }
+```
