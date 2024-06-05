@@ -43,7 +43,21 @@ export function merge<Obj extends object>(
   return additional.reduce(merge2, base)
 }
 
+export function objValues<Obj extends object>(
+  obj: Obj,
+): readonly Obj[keyof Obj][] {
+  return Object.values(obj)
+}
+
+export function objKeys<Obj extends object>(
+  obj: Obj,
+): (keyof Obj)[] {
+  return Object.keys(obj) as (keyof Obj)[]
+}
+
 export const obj = {
   copyIntersectingFields,
   merge,
+  keys: objKeys,
+  vals: objValues,
 }
