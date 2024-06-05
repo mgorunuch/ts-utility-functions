@@ -1,6 +1,6 @@
 {
   "name": "ts-utility-functions",
-  "version": "1.0.4",
+  "version": "1.0.5",
   "description": "",
   "type": "commonjs",
   "main": "dist/index.js",
@@ -8,7 +8,7 @@
   "scripts": {
     "build": "rm -rf dist && npm run build:ts",
     "build:ts": "tsc -p tsconfig.json --outDir dist",
-    "pub": "npm run build && npm publish",
+    "pub": "pnpm run build && pnpm publish",
     "lint": "eslint src --fix"
   },
   "files": [
