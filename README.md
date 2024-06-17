@@ -102,3 +102,15 @@ const a = { a: 1, b: 2, c: 3 }
 const b = keys(a)
 console.log(b) // ['a', 'b', 'c'] as ('a', 'b', 'c')[]
 ```
+
+### Function
+
+### `fn.noop`
+```typescript
+const a = fn.noop() // does nothing (returns undefined)
+```
+
+### `fn.noopAsync`
+```typescript
+const a = await fn.noopAsync() // does nothing (returns Promise<undefined>)
+```
