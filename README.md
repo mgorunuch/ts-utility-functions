@@ -114,3 +114,40 @@ const a = fn.noop() // does nothing (returns undefined)
 ```typescript
 const a = await fn.noopAsync() // does nothing (returns Promise<undefined>)
 ```
+
+### Array
+
+### `arr.is`
+```typescript
+arr.is([])          // true
+arr.is([1, 2, 3])   // true
+vals.filter(arr.is) // filter out non-array values
+```
+
+### `arr.isNot`
+```typescript   
+arr.isNot([])          // false
+arr.isNot([1, 2, 3])   // false
+vals.filter(arr.isNot) // filter out array values
+```
+
+### `arr.req`
+```typescript   
+arr.req([])          // []
+arr.req([1, 2, 3])   // [1, 2, 3]
+arr.req(null)        // throws error
+```
+
+### `arr.isEmpty`
+```typescript
+arr.isEmpty([])          // true
+arr.isEmpty([1, 2, 3])   // false
+vals.filter(arr.isEmpty) // filter out non-empty arrays
+```
+
+### `arr.isNotEmpty`
+```typescript
+arr.isNotEmpty([])          // false
+arr.isNotEmpty([1, 2, 3])   // true
+vals.filter(arr.isNotEmpty) // filter out empty arrays
+```
