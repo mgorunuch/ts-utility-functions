@@ -13,5 +13,5 @@ export const arr = {
   isNotEmpty: <ArrType>(inp: ArrType[]): boolean => { return !arr.isEmpty(inp) },
 
   isEmptySafe: <ArrType>(inp: ArrType[] | null | undefined): boolean => { return !inp || arr.isEmpty(inp) },
-  isNotEmptySafe: <ArrType>(inp: ArrType[] | null | undefined): boolean => { return !arr.isEmptySafe(inp) },
+  isNotEmptySafe: <ArrType>(inp: ArrType[] | null | undefined): inp is ArrType[] => { return !arr.isEmptySafe(inp) },
 }
