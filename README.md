@@ -151,3 +151,21 @@ arr.isNotEmpty([])          // false
 arr.isNotEmpty([1, 2, 3])   // true
 vals.filter(arr.isNotEmpty) // filter out empty arrays
 ```
+
+### `arr.isEmptySafe`
+```typescript
+arr.isEmptySafe([])          // true
+arr.isEmptySafe(null)        // true
+arr.isEmptySafe(undefined)   // true
+arr.isEmptySafe([1, 2, 3])   // false
+vals.filter(arr.isEmptySafe) // filter out non-empty arrays
+```
+
+### `arr.isNotEmptySafe`
+```typescript
+arr.isNotEmptySafe([])          // false
+arr.isNotEmptySafe(null)        // false
+arr.isNotEmptySafe(undefined)   // false
+arr.isNotEmptySafe([1, 2, 3])   // true
+vals.filter(arr.isNotEmptySafe) // filter out empty arrays
+```

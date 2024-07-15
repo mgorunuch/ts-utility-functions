@@ -11,4 +11,7 @@ export const arr = {
   },
   isEmpty: <ArrType>(inp: ArrType[]): boolean => { return inp.length === 0 },
   isNotEmpty: <ArrType>(inp: ArrType[]): boolean => { return !arr.isEmpty(inp) },
+
+  isEmptySafe: <ArrType>(inp: ArrType[] | null | undefined): boolean => { return !inp || arr.isEmpty(inp) },
+  isNotEmptySafe: <ArrType>(inp: ArrType[] | null | undefined): boolean => { return !arr.isEmptySafe(inp) },
 }
