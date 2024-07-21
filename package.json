@@ -1,6 +1,6 @@
 {
   "name": "ts-utility-functions",
-  "version": "2.0.0-alpha.0",
+  "version": "2.0.0-alpha.3",
   "description": "",
   "type": "commonjs",
   "main": "dist/index.js",
@@ -15,12 +15,12 @@
     "dist"
   ],
   "peerDependencies": {
-    "ts-parsers": "^1.0.4"
+    "ts-parsers": "1.0.4"
   },
   "devDependencies": {
-    "typescript": "^5.4.3",
-    "@antfu/eslint-config": "^2.20.0",
-    "eslint": "^9.4.0"
+    "typescript": "5.5.3",
+    "@antfu/eslint-config": "2.23.1",
+    "eslint": "9.7.0"
   },
   "author": {
     "name": "Ihor Herasymovych",

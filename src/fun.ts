@@ -1,7 +1,2 @@
-export function noopFun(...ars: any[]): void {return}
-export function noopAsyncFun(...ars: any[]): Promise<void> {return Promise.resolve()}
-
-export const fun = {
-  noop: noopFun,
-  noopAsync: noopAsyncFun,
-}
+export function funNoop(...ars: any[]): void {return}
+export function funNoopAsync(...ars: any[]): Promise<void> {return Promise.resolve()}

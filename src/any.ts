@@ -1,13 +1,13 @@
-import {str} from "@/string";
-import {arr} from "@/arr";
-import {obj} from "@/object";
+import {isObj, isObjEmpty, objKeys} from "@/object";
+import {isStr, isStrEmpty} from "@/string";
+import {arrRefFilter, arrRefMap, isArr, isArrEmpty} from "@/arr";
 
 export function optDeref<Val>(inp: Val, isDereference: boolean): Val {
   if (inp === null || inp === undefined) { return inp }
 
-  if (str.is(inp)) return inp
-  if (arr.is(inp)) return (isDereference ? [...inp] : inp) as unknown as Val
-  if (obj.is(inp)) return (isDereference ? {...inp} : inp) as unknown as Val
+  if (isStr(inp)) return inp
+  if (isArr(inp)) return (isDereference ? [...inp] : inp) as unknown as Val
+  if (isObj(inp)) return (isDereference ? {...inp} : inp) as unknown as Val
 
   return inp
 }
@@ -15,37 +15,48 @@ export function optDeref<Val>(inp: Val, isDereference: boolean): Val {
 export function isAnyEmpty<Val>(inp: Val): boolean {
   if (inp === null || inp === undefined) { return true }
 
-  if (str.is(inp)) return str.isEmpty(inp)
-  if (arr.is(inp)) return arr.isEmpty(inp)
-  if (obj.is(inp)) return obj.isEmpty(inp)
+  if (isStr(inp)) return isStrEmpty(inp)
+  if (isArr(inp)) return isArrEmpty(inp)
+  if (isObj(inp)) return isObjEmpty(inp)
 
   return false
 }
 
 // TODO: Remove "as"
 // Return dereferenced object
-export function anyClean<Val, ResObj>(inp: Val, isDeref: boolean = false): ResObj | undefined {
+export function anyClean<Val, ResObj>(inp: Val, {
+  isDeref = false,
+  isObjectKeyIgnored
+}: { isDeref: boolean, isObjectKeyIgnored?: (v: string) => boolean }): ResObj | undefined {
   if (inp === null || inp === undefined) { return; }
 
-  if (str.is(inp)) return str.isEmpty(inp) ? undefined : inp as ResObj
-  if (arr.is(inp)) {
+  if (isStr(inp)) return isStrEmpty(inp) ? undefined : inp as ResObj
+  if (isArr(inp)) {
     let res = optDeref(inp, isDeref)
-    arr.mapRef(res, (val) => anyClean(val, isDeref))
-    arr.filterRef(res, isAnyEmpty)
-    return arr.isEmpty(res) ? undefined : res as unknown as ResObj
+    arrRefMap(res, (val) => anyClean(val, {isDeref, isObjectKeyIgnored}))
+    arrRefFilter(res, isAnyEmpty)
+    return isArrEmpty(res) ? undefined : res as unknown as ResObj
   }
 
-  if (obj.is(inp)) {
+  if (isObj(inp)) {
     let res = optDeref(inp, isDeref)
-    obj.keys(res).forEach((key) => {
+    objKeys(res).forEach((key) => {
       // @ts-expect-error
-      res[key] = anyClean(res[key], isDeref)
+      res[key] = anyClean(res[key], {isDeref, isObjectKeyIgnored})
     })
-    obj.keys(res).forEach((key) => {
+    objKeys(res).forEach((key) => {
       if (isAnyEmpty(res[key])) { delete res[key] }
     })
-    return obj.isEmpty(res) ? undefined : res as unknown as ResObj
+    return isObjEmpty(res) ? undefined : res as unknown as ResObj
   }
 
   return inp
+}
+
+export function isSafe<Val>(val: Val | null | undefined): val is Val {
+  return val !== null && val !== undefined
+}
+
+export function isSafeIs<Val, Res extends Val>(val: Val | null | undefined, isCheck: (val: Val) => val is Res): val is Val {
+  return isSafe(val) && isCheck(val)
 }
