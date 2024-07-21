@@ -6,8 +6,8 @@ settings:
 
 dependencies:
   ts-parsers:
-    specifier: 1.0.4
-    version: 1.0.4
+    specifier: 1.0.6
+    version: 1.0.6
 
 devDependencies:
   '@antfu/eslint-config':
@@ -2395,8 +2395,8 @@ packages:
       typescript: 5.5.3
     dev: true
 
-  /ts-parsers@1.0.4:
-    resolution: {integrity: sha512-mTLkvH7bM9IYouUg+lH9oNMUuDGnnkFCl5FjzW2SdNEq2LbXBRWqV/R8smM5n76Wrh7oUzKziXQZOzIpBI41+w==}
+  /ts-parsers@1.0.6:
+    resolution: {integrity: sha512-s5/uKITWoDDIPyrr5gykY6+H4MapuqwBpjMTiR6yeCunOHLKNhqitcqGWit4DvbkpZ2Wa16G7+KZXjJ7FMjaTQ==}
     dev: false
 
   /tslib@2.6.3:
