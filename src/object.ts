@@ -1,4 +1,4 @@
-import type { Constructable, IntersectingFields } from '@/types'
+import type { Constructable, IntersectingFields } from './types'
 
 /**
  * Copies intersecting fields from one object to another.

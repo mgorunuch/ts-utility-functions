@@ -1,6 +1,6 @@
-import {isObj, isObjEmpty, objKeys} from "@/object";
-import {isStr, isStrEmpty} from "@/string";
-import {arrRefFilter, arrRefMap, isArr, isArrEmpty} from "@/arr";
+import {isObj, isObjEmpty, objKeys} from "./object";
+import {isStr, isStrEmpty} from "./string";
+import {arrRefFilter, arrRefMap, isArr, isArrEmpty} from "./arr";
 
 export function optDeref<Val>(inp: Val, isDereference: boolean): Val {
   if (inp === null || inp === undefined) { return inp }
