@@ -1,4 +1,5 @@
 import type { Constructable, IntersectingFields } from '@/types'
+import {arr} from "@/arr";
 
 /**
  * Copies intersecting fields from one object to another.
@@ -55,9 +56,50 @@ export function objKeys<Obj extends object>(
   return Object.keys(obj) as (keyof Obj)[]
 }
 
+export function objKeysForEach<Obj extends object>(
+  obj: Obj,
+  callback: (key: keyof Obj) => void,
+): void {
+  objKeys(obj).forEach(callback)
+}
+
+export function objKeysMap<Obj extends object, Res>(
+  obj: Obj,
+  callback: (key: keyof Obj) => Res,
+): Res[] {
+  const res = objKeys(obj)
+  return arr.mapRef(res, callback)
+}
+
+export function objKeysMapFilter<Obj extends object, Res>(
+  obj: Obj,
+  callback: (key: keyof Obj) => Res,
+  filter: (val: Res) => boolean,
+): Res[] {
+  const res = objKeys(obj)
+  return arr.mapFilterRef(res, callback, filter)
+}
+
+export function isEmpty(obj: object): boolean {
+  return Object.keys(obj).length === 0
+}
+
+export function isNotEmpty(obj: object): boolean {
+  return !isEmpty(obj)
+}
+
+export function isObject(val: any): val is object {
+  return typeof val === 'object' && val !== null && !Array.isArray(val)
+}
+
 export const obj = {
   copyIntersectingFields,
   merge,
   keys: objKeys,
+  keysForEach: objKeysForEach,
+  keysMap: objKeysMap,
   vals: objValues,
+  isEmpty,
+  isNotEmpty,
+  is: isObject,
 }

@@ -1,16 +1,13 @@
 import { parser } from 'ts-parsers'
 
+export const isStr = parser.str.is;
+export const isStrEmpty = <Type extends string>(inp: Type): boolean => inp.trim() === '';
+export const isStrNotEmpty = <Type extends string>(inp: Type): boolean => !isStrEmpty(inp);
+export const isStrStartsWith = (prefix: string) => (inp: string): boolean => inp.startsWith(prefix);
+
 export const str = {
-  is: parser.str.is,
-  isStartWith: (prefix: string) => (inp: string): inp is string => {
-    if (inp.length < prefix.length)
-      return false
-
-    for (let i = 0; i < prefix.length; i++) {
-      if (inp[i] !== prefix[i])
-        return false
-    }
-
-    return true
-  },
+  is: isStr,
+  isEmpty: isStrEmpty,
+  isNotEmpty: isStrNotEmpty,
+  startsWith: isStrStartsWith,
 }
