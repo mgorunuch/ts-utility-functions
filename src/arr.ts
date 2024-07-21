@@ -6,6 +6,10 @@ export function isArr<ArrType, Other>(inp: ArrType[] | Other): inp is ArrType[] 
 export function reqIsArr<ArrType, Other>(inp: ArrType[] | Other): asserts inp is ArrType[] {
   if (!isArr(inp)) throw new Error(`Expected an array but got ${inp}`)
 }
+export function reqArr<ArrType, Other>(inp: ArrType[] | Other): ArrType[] {
+  reqIsArr(inp)
+  return inp
+}
 
 export function isNotArr<ArrType>(inp: ArrType[]): inp is ArrType[] {
   return !isArr(inp)

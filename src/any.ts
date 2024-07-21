@@ -33,7 +33,7 @@ export function anyClean<Val, ResObj>(inp: Val, {
   if (isStr(inp)) return isStrEmpty(inp) ? undefined : inp as ResObj
   if (isArr(inp)) {
     let res = optDeref(inp, isDeref)
-    arrRefMap(res, (val) => anyClean(val, {isDeref, isObjectKeyIgnored}))
+    arrRefMap(res, (val) => anyClean(val, {isDeref}))
     arrRefFilter(res, isAnyEmpty)
     return isArrEmpty(res) ? undefined : res as unknown as ResObj
   }
@@ -42,7 +42,7 @@ export function anyClean<Val, ResObj>(inp: Val, {
     let res = optDeref(inp, isDeref)
     objKeys(res).forEach((key) => {
       // @ts-expect-error
-      res[key] = anyClean(res[key], {isDeref, isObjectKeyIgnored})
+      res[key] = anyClean(res[key], {isDeref})
     })
     objKeys(res).forEach((key) => {
       if (isAnyEmpty(res[key])) { delete res[key] }
