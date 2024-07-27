@@ -1,10 +1,13 @@
+import {optDeref} from "./types";
+import {anyClean, anyIsEmpty} from "./any";
+import {boolFuncSwap1} from "./bool";
 
-export function isArr<ArrType, Other>(inp: ArrType[] | Other): inp is ArrType[] {
+export function arrIs<ArrType, Other>(inp: ArrType[] | Other): inp is ArrType[] {
   return Array.isArray(inp)
 }
 
 export function reqIsArr<ArrType, Other>(inp: ArrType[] | Other): asserts inp is ArrType[] {
-  if (!isArr(inp)) throw new Error(`Expected an array but got ${inp}`)
+  if (!arrIs(inp)) throw new Error(`Expected an array but got ${inp}`)
 }
 export function reqArr<ArrType, Other>(inp: ArrType[] | Other): ArrType[] {
   reqIsArr(inp)
@@ -12,23 +15,22 @@ export function reqArr<ArrType, Other>(inp: ArrType[] | Other): ArrType[] {
 }
 
 export function isNotArr<ArrType>(inp: ArrType[]): inp is ArrType[] {
-  return !isArr(inp)
+  return !arrIs(inp)
 }
 
-export function isArrEmpty<ArrType>(inp: ArrType[]): inp is [] {
+export function arrIsEmpty<ArrType>(inp: ArrType[]): inp is [] {
   return inp.length === 0
 }
 
 export function isArrNotEmpty<ArrType>(inp: ArrType[]): inp is ArrType[] {
-  return !isArrEmpty(inp)
+  return !arrIsEmpty(inp)
 }
 
 // Array filter by reference
 export function arrRefFilter<ArrType>(inp: ArrType[], filter: (val: ArrType) => boolean): ArrType[] {
-  const deleted = [] as ArrType[];
   for (let i = 0; i < inp.length; i++) {
     if (!filter(inp[i])) {
-      deleted.push(...inp.splice(i, 1));
+      inp.splice(i, 1)
       i--
     }
   }
@@ -41,5 +43,14 @@ export function arrRefMap<ArrType, ResType>(inp: ArrType[], mapper: (val: ArrTyp
   for (let i = 0; i < inp.length; i++) {
     inp2[i] = mapper(inp[i] as unknown as ArrType)
   }
-  return inp as unknown as ResType[]
+  return inp2 as unknown as ResType[]
+}
+
+export function arrClean<ResType>(arr: any[], isDeref = false): ResType[] | undefined {
+  const res = optDeref(arr, isDeref)
+  arrRefMap(res, (val) => {
+    return anyClean(val, {isDeref})
+  })
+  arrRefFilter(res, boolFuncSwap1(anyIsEmpty))
+  return arrIsEmpty(res) ? undefined : res as unknown as ResType[]
 }

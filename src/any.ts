@@ -1,53 +1,41 @@
-import {isObj, isObjEmpty, objKeys} from "./object";
-import {isStr, isStrEmpty} from "./string";
-import {arrRefFilter, arrRefMap, isArr, isArrEmpty} from "./arr";
+import {objIs, objIsEmpty, objKeys} from "./object";
+import {strClean, strIs, strIsEmpty} from "./string";
+import {arrClean, arrRefFilter, arrRefMap, arrIs, arrIsEmpty} from "./arr";
+import {optDeref} from "./types";
 
-export function optDeref<Val>(inp: Val, isDereference: boolean): Val {
-  if (inp === null || inp === undefined) { return inp }
-
-  if (isStr(inp)) return inp
-  if (isArr(inp)) return (isDereference ? [...inp] : inp) as unknown as Val
-  if (isObj(inp)) return (isDereference ? {...inp} : inp) as unknown as Val
-
-  return inp
-}
-
-export function isAnyEmpty<Val>(inp: Val): boolean {
+export function anyIsEmpty<Val>(inp: Val): boolean {
   if (inp === null || inp === undefined) { return true }
 
-  if (isStr(inp)) return isStrEmpty(inp)
-  if (isArr(inp)) return isArrEmpty(inp)
-  if (isObj(inp)) return isObjEmpty(inp)
+  if (strIs(inp)) return strIsEmpty(inp)
+  if (arrIs(inp)) return arrIsEmpty(inp)
+  if (objIs(inp)) return objIsEmpty(inp)
 
   return false
 }
+
+let log = false
 
 // TODO: Remove "as"
 // Return dereferenced object
 export function anyClean<Val, ResObj>(inp: Val, {
   isDeref = false,
-  isObjectKeyIgnored
 }: { isDeref: boolean, isObjectKeyIgnored?: (v: string) => boolean }): ResObj | undefined {
   if (inp === null || inp === undefined) { return; }
 
-  if (isStr(inp)) return isStrEmpty(inp) ? undefined : inp as ResObj
-  if (isArr(inp)) {
-    let res = optDeref(inp, isDeref)
-    arrRefMap(res, (val) => anyClean(val, {isDeref}))
-    arrRefFilter(res, isAnyEmpty)
-    return isArrEmpty(res) ? undefined : res as unknown as ResObj
-  }
+  if (strIs(inp)) return strClean(inp) as ResObj
+  if (arrIs(inp)) return arrClean(inp, isDeref) as ResObj
 
-  if (isObj(inp)) {
+  if (objIs(inp)) {
     let res = optDeref(inp, isDeref)
     objKeys(res).forEach((key) => {
       // @ts-expect-error
       res[key] = anyClean(res[key], {isDeref})
+
+      if (anyIsEmpty(res[key])) {
+        delete res[key]
+      }
     })
-    objKeys(res).forEach((key) => {
-      if (isAnyEmpty(res[key])) { delete res[key] }
-    })
-    return isObjEmpty(res) ? undefined : res as unknown as ResObj
+    return objIsEmpty(res) ? undefined : res as unknown as ResObj
   }
 
   return inp

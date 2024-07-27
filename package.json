@@ -1,6 +1,6 @@
 {
   "name": "ts-utility-functions",
-  "version": "2.0.0-alpha.7",
+  "version": "2.0.0-alpha.8",
   "description": "",
   "type": "commonjs",
   "main": "dist/index.js",
@@ -20,7 +20,8 @@
   "devDependencies": {
     "typescript": "5.5.3",
     "@antfu/eslint-config": "2.23.1",
-    "eslint": "9.7.0"
+    "eslint": "9.7.0",
+    "@types/node": "20.14.12"
   },
   "author": {
     "name": "Ihor Herasymovych",

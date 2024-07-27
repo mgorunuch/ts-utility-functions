@@ -55,14 +55,14 @@ export function objKeys<Obj extends object>(
   return Object.keys(obj) as (keyof Obj)[]
 }
 
-export function isObjEmpty(obj: object): boolean {
-  return Object.keys(obj).length === 0
+export function objIsEmpty(obj: object): boolean {
+  return objKeys(obj).length === 0
 }
 
 export function isObjNotEmpty(obj: object): boolean {
-  return !isObjEmpty(obj)
+  return !objIsEmpty(obj)
 }
 
-export function isObj(val: any): val is object {
+export function objIs(val: any): val is object {
   return typeof val === 'object' && val !== null && !Array.isArray(val)
 }
